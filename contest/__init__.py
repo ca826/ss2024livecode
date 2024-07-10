@@ -12,19 +12,30 @@ class C(BaseConstants):
     NAME_IN_URL = 'contest'
     PLAYERS_PER_GROUP = None
     NUM_ROUNDS = 1
+    ENDOWMENT = 20
 
 
 class Subsession(BaseSubsession):
-    pass
+    is_paid = models.BooleanField()
 
+    def setup(self):
+        self.is_paid = (self.round_number == 1)
 
 class Group(BaseGroup):
     pass
 
 
 class Player(BasePlayer):
-    pass
+    endowment = models.IntegerField()
+    cost_per_ticket = models.IntegerField()
+    tickets_purchased = models.IntegerField()
+    is_winner = models.BooleanField()
+    is_paid = models.BooleanField()
+    earnings = models.IntegerField()
 
+
+def creating_session(subsession):
+    subsession.setup()
 
 # PAGES
 class Intro(Page):
